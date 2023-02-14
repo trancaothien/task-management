@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Transform } from 'class-transformer';
 
 export type UserDocument = User & Document;
 
@@ -13,6 +14,11 @@ export type UserDocument = User & Document;
   },
 })
 export class User {
+  @Transform((value) => {
+    return value?.obj?._id?.toString() ?? value?.obj?.id;
+  })
+  id?: string;
+
   @Prop()
   firstName: string;
 

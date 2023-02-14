@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TaskModule } from './task/task.module';
@@ -14,8 +12,6 @@ import { ProjectModule } from './project/project.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    AuthModule,
-    UsersModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -27,13 +23,15 @@ import { ProjectModule } from './project/project.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UsersModule,
     TaskModule,
     CommentModule,
     NotificationModule,
     HistoryModule,
     ProjectModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

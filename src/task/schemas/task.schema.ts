@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Comment } from 'src/comment/schemas/comment.schema';
-import { IssueType } from 'src/common/enums/issue-type.enum';
-import { Priority } from 'src/common/enums/priority.enum';
-import { Status } from 'src/common/enums/status.enum';
+import { IssueType } from 'src/common/constants/enums/issue-type.enum';
+import { Priority } from 'src/common/constants/enums/priority.enum';
+import { Status } from 'src/common/constants/enums/status.enum';
 import { User } from 'src/users/schemas/user.schema';
 import { Content } from './content.schema';
 

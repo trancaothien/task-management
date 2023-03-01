@@ -8,6 +8,7 @@ import { CommentModule } from './comment/comment.module';
 import { NotificationModule } from './notification/notification.module';
 import { HistoryModule } from './history/history.module';
 import { ProjectModule } from './project/project.module';
+import { ExampleModule } from './example/example.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ProjectModule } from './project/project.module';
     NotificationModule,
     HistoryModule,
     ProjectModule,
+    ExampleModule,
   ],
   controllers: [],
   providers: [],

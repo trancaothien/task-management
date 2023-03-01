@@ -1,7 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AccountScope } from 'src/common/decorators/account.decorator';
-import { UserDocument } from 'src/users/schemas/user.schema';
 import { AuthService } from './auth.service';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { ForgotPasswordDTO } from './dto/forgot-password.dto';

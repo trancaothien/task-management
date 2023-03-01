@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Put } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreateProjectDTO } from './dto/create-project.dto';
 import { UpdateProjectDTO } from './dto/update-project.dto';
@@ -10,7 +10,7 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
-  create(@Body() createDTO: CreateProjectDTO) {
+  createProject(@Body() createDTO: CreateProjectDTO) {
     return this.projectService.create(createDTO);
   }
 
@@ -21,7 +21,32 @@ export class ProjectController {
     example: '63228d323fce64cc20df1915',
   })
   @Put(':id')
-  update(@Body() updateDTO: UpdateProjectDTO) {
+  updateProject(@Body() updateDTO: UpdateProjectDTO) {
     return this.projectService.update(updateDTO);
+  }
+
+  @Delete(':id')
+  removeProject() {
+    return '';
+  }
+
+  @Post('columns')
+  createColumn() {
+    return '';
+  }
+
+  @ApiParam({
+    name: 'id',
+    required: true,
+    example: '63228d323fce64cc20df1915',
+  })
+  @Put('columns/:id')
+  updateColumn() {
+    return '';
+  }
+
+  @Delete()
+  removeColumn() {
+    return '';
   }
 }

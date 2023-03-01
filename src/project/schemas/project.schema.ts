@@ -22,10 +22,13 @@ export class Project {
   @Prop()
   description: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: User.name })
   members: User[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Board.name })
-  board: Board;
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: Board.name })
+  board: Board[];
+
+  @Prop()
+  imageUrl: string;
 }
 export const ProjectSchema = SchemaFactory.createForClass(Project);

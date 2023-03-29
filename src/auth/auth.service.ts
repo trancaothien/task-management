@@ -49,7 +49,12 @@ export class AuthService {
       email: createDTO.email,
       password: await hashPassword(createDTO.password),
     };
-    return await this.userService.createOne(createUserDto);
+
+    const user = await this.userService.findOneByEmail(createDTO.email);
+
+    if (!user) {
+      return await this.userService.createOne(createUserDto);
+    } else throw new BadRequestException(Message.EMAIL_IS_EXIST);
   }
 
   async signIn(email: string, password: string) {

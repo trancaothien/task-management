@@ -14,4 +14,13 @@ export class UserRepository {
   async findOneByEmail(email: string): Promise<UserDocument> {
     return await this.entity.findOne({ email: email });
   }
+
+  async findOneById(id: string): Promise<UserDocument> {
+    return await this.entity.findById(id);
+  }
+
+
+  async update(user: User): Promise<boolean> {
+    return await this.entity.findByIdAndUpdate(user.id, user);
+  }
 }

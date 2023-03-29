@@ -1,5 +1,19 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Patch,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { AccountScope } from 'src/common/decorators/account.decorator';
 import { AuthService } from './auth.service';
 import { ChangePasswordDTO } from './dto/change-password.dto';
@@ -7,6 +21,8 @@ import { ForgotPasswordDTO } from './dto/forgot-password.dto';
 import { SignInDTO } from './dto/sign-in.dto';
 import { SignUpDTO } from './dto/sign-up.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Sign } from 'crypto';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -21,20 +37,32 @@ export class AuthController {
   @ApiBody({
     type: SignInDTO,
   })
-  @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  signIn(@AccountScope() user: any) {
-    console.log(user);
-    return this.authService.signIn(user);
+  signIn(@Body() {email, password}: SignInDTO) {
+    return this.authService.signIn(email, password);
   }
 
   @Post('forgot-password')
+  @ApiBearerAuth('defaultBearerAuth')
   forgotPassword(@Body() forgotPasswordDTO: ForgotPasswordDTO) {
     return forgotPasswordDTO;
   }
 
-  @Post('change-password')
-  changePassword(@Body() changePasswordDTO: ChangePasswordDTO) {
-    return changePasswordDTO;
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({
+    status: 201,
+    description: 'The user has been successfully forgot password.',
+    type: Boolean,
+  })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth('defaultBearerAuth')
+  @Patch('change-password')
+  async changePassword(
+    @Body() dto: ChangePasswordDTO,
+    @AccountScope() user: any,
+  ): Promise<boolean> {
+    await this.authService.changePassword(dto, user.id);
+    return true;
   }
 }

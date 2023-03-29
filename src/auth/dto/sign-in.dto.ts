@@ -8,6 +8,6 @@ export class SignInDTO {
   email: string;
 
   @IsNotEmpty()
-  @ApiProperty({ example: '*****' })
+  @ApiProperty({ example: 'Android18' })
   password: string;
 }
